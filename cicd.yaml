@@ -1,0 +1,74 @@
+kind: Pipeline
+name: pipeline-run-<%.releaseVersion%>
+labels:
+  accountId: '1431999136518149'
+  appName: mcp-servers
+  envName: default
+spec:
+  context:
+    data:
+      appName: mcp-servers
+  templateSpec:
+    context:
+      data:
+        dingdingNotification:
+          enable: false
+          message:
+            at:
+              isAtAll: false
+            msgtype: text
+          skipOnSuccess: false
+        envName: default
+        deployFile: s.yaml
+        appName: mcp-servers
+    tasks:
+      - name: image-build
+        context:
+          data:
+            # 任务显示名字，用于在控制台中展示
+            displayName: 镜像构建
+            # 打开任务执行，默认关闭
+            enable: true
+            # 指定构建信息
+            build:
+              # 指定dockerfile，使用代码仓库中的相对路径。不指定时默认为./Dockerfile
+              dockerfile: src/github/Dockerfile
+              # 指定镜像名，必须是ACR镜像
+              image: registry.ap-southeast-1.aliyuncs.com/fc-demo2/test-xiliu-git:fengchong-debug
+              # 指定构建上下文目录。不指定时默认使用Dockerfile所在目录
+              # context: ./context
+              # 指定ACR企业版实例
+              # instanceID: cri-xxxx
+              # 使用base镜像的缓存路径，需要使用流水线专有环境并且使用NAS
+              # cacheDir: "/mnt/image-cache"
+            # 将base镜像预热到缓存，需要使用流水线专有环境并且使用NAS
+            # warm:
+            #   # 需要预热的base镜像，可以指定多个
+            #   images:
+            #   - registry-vpc.cn-hangzhou.aliyuncs.com/pipeline-demo/base-image-1:debug
+            #   - registry-vpc.cn-hangzhou.aliyuncs.com/pipeline-demo/base-image-2:debug
+            #   # base镜像要缓存的路径
+            #   cacheDir: "/mnt/image-cache"
+        # 任务模板指定为内置的模板build-image-task
+        taskTemplate: build-image-task
+      # - name: build-and-deploy-9sp1
+      #   context:
+      #     data:
+      #       displayName: "构建部署"
+      #       enable: true
+      #       steps:
+      #         - plugin: "@serverless-cd/s-setup"
+      #         - plugin: "@serverless-cd/checkout"
+      #         - plugin: "@serverless-cd/s-deploy"
+      #           inputs:
+      #             # 部署指定资源，对应s.yaml中services.[*]
+      #             resource: app-1
+      #             # 指定s.yaml文件
+      #             deployFile: s-test.yaml
+      #             # 指定部署参数
+      #             deployArgs:
+      #               - "function" # 只部署函数
+      #               - "--type config" # 只更新函数配置，不更新代码
+      #             # 开启debug日志
+      #             debugMode: true
+      #   taskTemplate: serverless-runner-task
