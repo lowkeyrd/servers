@@ -36,7 +36,7 @@ spec:
               # 指定镜像名，必须是ACR镜像
               image: registry.ap-southeast-1.aliyuncs.com/fc-demo2/test-xiliu-git:fengchong-debug
               # 指定构建上下文目录。不指定时默认使用Dockerfile所在目录
-              # context: ./context
+              context: src/github
               # 指定ACR企业版实例
               # instanceID: cri-xxxx
               # 使用base镜像的缓存路径，需要使用流水线专有环境并且使用NAS
