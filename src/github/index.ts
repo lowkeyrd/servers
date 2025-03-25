@@ -7,6 +7,7 @@ import {
 } from "@modelcontextprotocol/sdk/types.js";
 import { z } from 'zod';
 import { zodToJsonSchema } from 'zod-to-json-schema';
+import express from "express";
 
 import * as repository from './operations/repository.js';
 import * as files from './operations/files.js';
@@ -470,13 +471,29 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
   }
 });
 
-async function runServer() {
-  const transport = new StdioServerTransport();
-  await server.connect(transport);
-  console.error("GitHub MCP Server running on stdio");
-}
+// async function runServer() {
+//   const transport = new StdioServerTransport();
+//   await server.connect(transport);
+//   console.error("GitHub MCP Server running on stdio");
+// }
 
-runServer().catch((error) => {
-  console.error("Fatal error in main():", error);
-  process.exit(1);
+// runServer().catch((error) => {
+//   console.error("Fatal error in main():", error);
+//   process.exit(1);
+// });
+
+const app = express();
+
+app.get("/sse", async (req, res) => {
+  const transport = new SSEServerTransport("/messages", res);
+  await server.connect(transport);
 });
+
+app.post("/messages", async (req, res) => {
+  // Note: to support multiple simultaneous connections, these messages will
+  // need to be routed to a specific matching transport. (This logic isn't
+  // implemented here, for simplicity.)
+  await transport.handlePostMessage(req, res);
+});
+
+app.listen(9000);
