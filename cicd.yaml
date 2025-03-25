@@ -61,12 +61,8 @@ spec:
               - plugin: "@serverless-cd/checkout"
               - plugin: "@serverless-cd/s-deploy"
                 inputs:
-                  resource: app-1
-                  deployFile: s-test.yaml
-                  deployArgs:
-                    - function
-                    - --type config
-                  debugMode: true
+                  deployFile: s.yaml
+                  # debugMode: true
         taskTemplate: serverless-runner-task
         runAfters:
           - name: image-build
