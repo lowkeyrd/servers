@@ -21,7 +21,7 @@ resources:
       diskSize: 10240
       instanceConcurrency: 100
       customContainerConfig:
-        image: registry.ap-southeast-1-vpc.aliyuncs.com/fc-demo2/test-xiliu-git:fengchong-debug
+        image: registry-vpc.ap-southeast-1.aliyuncs.com/fc-demo2/test-xiliu-git:fengchong-debug
         port: 9000
       functionName: ${vars.functionName}
       triggers:
