@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
-// import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
+import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+// import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
 import {
   CallToolRequestSchema,
   ListToolsRequestSchema,
@@ -472,29 +472,29 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
   }
 });
 
-// async function runServer() {
-//   const transport = new StdioServerTransport();
-//   await server.connect(transport);
-//   console.error("GitHub MCP Server running on stdio");
-// }
+async function runServer() {
+  const transport = new StdioServerTransport();
+  await server.connect(transport);
+  console.error("GitHub MCP Server running on stdio");
+}
 
-// runServer().catch((error) => {
-//   console.error("Fatal error in main():", error);
-//   process.exit(1);
+runServer().catch((error) => {
+  console.error("Fatal error in main():", error);
+  process.exit(1);
+});
+
+// const app = express();
+
+// app.get("/sse", async (req, res) => {
+//   const transport = new SSEServerTransport("/messages", res);
+//   await server.connect(transport);
 // });
 
-const app = express();
+// app.post("/messages", async (req, res) => {
+//   // Note: to support multiple simultaneous connections, these messages will
+//   // need to be routed to a specific matching transport. (This logic isn't
+//   // implemented here, for simplicity.)
+//   await transport.handlePostMessage(req, res);
+// });
 
-app.get("/sse", async (req, res) => {
-  const transport = new SSEServerTransport("/messages", res);
-  await server.connect(transport);
-});
-
-app.post("/messages", async (req, res) => {
-  // Note: to support multiple simultaneous connections, these messages will
-  // need to be routed to a specific matching transport. (This logic isn't
-  // implemented here, for simplicity.)
-  await transport.handlePostMessage(req, res);
-});
-
-app.listen(9000);
+// app.listen(9000);

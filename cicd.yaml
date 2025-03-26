@@ -66,24 +66,3 @@ spec:
         taskTemplate: serverless-runner-task
         runAfters:
           - name: image-build
-      # - name: build-and-deploy-9sp1
-      #   context:
-      #     data:
-      #       displayName: "构建部署"
-      #       enable: true
-      #       steps:
-      #         - plugin: "@serverless-cd/s-setup"
-      #         - plugin: "@serverless-cd/checkout"
-      #         - plugin: "@serverless-cd/s-deploy"
-      #           inputs:
-      #             # 部署指定资源，对应s.yaml中services.[*]
-      #             resource: app-1
-      #             # 指定s.yaml文件
-      #             deployFile: s-test.yaml
-      #             # 指定部署参数
-      #             deployArgs:
-      #               - "function" # 只部署函数
-      #               - "--type config" # 只更新函数配置，不更新代码
-      #             # 开启debug日志
-      #             debugMode: true
-      #   taskTemplate: serverless-runner-task
