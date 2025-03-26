@@ -22,11 +22,7 @@ WORKDIR /app
 
 RUN npm ci --ignore-scripts --omit-dev
 
-# Install the 'uv' package
-RUN python3 -m ensurepip && pip install --no-cache-dir uv
-
-ENV PATH="/usr/local/bin:$PATH" \
-    UV_PYTHON_PREFERENCE=only-system
+ENV PATH="/usr/local/bin:$PATH"
 
 RUN mcp-proxy -h
 
