@@ -22,5 +22,7 @@ WORKDIR /app
 
 RUN npm ci --ignore-scripts --omit-dev
 
+RUN mcp-proxy -h
+
 # ENTRYPOINT ["node", "dist/index.js"]
 ENTRYPOINT [ "mcp-proxy", "--sse-port", "9000", "--", "node", "dist/index.js" ]

@@ -15,6 +15,7 @@ resources:
       region: ${vars.region}
       description: Serverless Devs Web Framework Function
       runtime: custom-container
+      logConfig: auto
       timeout: 60
       cpu: 1
       memorySize: 2048
