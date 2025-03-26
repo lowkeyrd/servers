@@ -21,7 +21,7 @@ WORKDIR /app
 RUN npm ci --ignore-scripts --omit-dev
 
 RUN npm install mcp-proxy
-RUN npx mcp-proxy -h
+# RUN npx mcp-proxy -h
 
 # ENTRYPOINT ["node", "dist/index.js"]
 ENTRYPOINT [ "npx", "mcp-proxy", "--port", "9000", "--endpoint", "/sse", "node", "dist/index.js" ]
